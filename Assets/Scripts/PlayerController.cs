@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
         clickCounter = 0;
         comboTimer = -1f;
         isJumping = false;
+        phoenix = false;
         rigidbody = GetComponent<Rigidbody2D>();     
         
     }
@@ -44,9 +45,13 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Run();
-        Attack();
-        Jump();
+        if(!phoenix)
+        {
+            Run();
+            Attack();
+            Jump();
+        }
+ 
     }
 
     void ResetAnimationParameters()
@@ -59,6 +64,7 @@ public class PlayerController : MonoBehaviour
         slashAttackCollider.enabled = false;
         transform.rotation = Quaternion.identity;
         rigidbody.isKinematic = false;
+        phoenix = false;
 
     }
 
@@ -85,7 +91,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.LeftShift) && !isJumping)
         {
-            //animator.SetBool("phoenix", true);
+            phoenix = true;
             rigidbody.isKinematic = true;
             animator.Play("PhoenixDive");
 
@@ -113,13 +119,14 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if(Input.GetButton("Jump") && !isJumping)
+        if(!isJumping && Input.GetButton("Jump"))
         {
             isJumping = true;
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpSpeed * Time.fixedDeltaTime);
             animator.SetBool("jump", true);
+            rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpSpeed * Time.fixedDeltaTime);         
 
         }
+
         if(rigidbody.velocity.y <= 0)
         {
             animator.SetBool("jump", false);
@@ -128,19 +135,10 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void PhoenixDive()
-    {
-        if(phoenix)
-        {
-
-        }
-        
-    }
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.name.Contains("Ground"))
+        if (collision.transform.tag == "Ground")
         {
             ResetAnimationParameters();
             isJumping = false;
@@ -148,7 +146,13 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.transform.tag == "Ground")
+        {
+            isJumping = true;
+        }
+    }
 
 
 
