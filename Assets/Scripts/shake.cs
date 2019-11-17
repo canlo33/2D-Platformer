@@ -12,11 +12,11 @@ public class shake : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.transform.tag == "Player" && !transform.name.Contains("grass"))
+        if(!transform.name.Contains("grass") && (collision.transform.tag == "Player" || collision.transform.tag == "Attack") )
         {        
             animator.SetBool("shake", true);
         }
-        else if (collision.transform.tag == "Player" && transform.name.Contains("grass"))
+        else if (transform.name.Contains("grass") && (collision.transform.tag == "Player" || collision.transform.tag == "Attack") )
         {
             animator.SetBool("grass", true);
         }

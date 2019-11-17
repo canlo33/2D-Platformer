@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 287711713}
   - component: {fileID: 287711714}
   - component: {fileID: 287711715}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PhoenixDiveTrigger
-  m_TagString: Untagged
+  m_TagString: Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,9 +95,9 @@ GameObject:
   - component: {fileID: 22497679559335630}
   - component: {fileID: 4912361760400049256}
   - component: {fileID: 6143338432350196304}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ChainAttackTrigger
-  m_TagString: Player
+  m_TagString: Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -165,9 +165,9 @@ GameObject:
   - component: {fileID: 775310360733956097}
   - component: {fileID: 4157850645813486498}
   - component: {fileID: 5957236213843614596}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SlashAttackTrigger
-  m_TagString: Player
+  m_TagString: Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -236,9 +236,9 @@ GameObject:
   - component: {fileID: 6272883567043293967}
   - component: {fileID: 6272883567043293965}
   - component: {fileID: 321774131}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PlayerModule
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -289,13 +289,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c920d9ae67a092844a7c54b251d5d85b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comboTimer: 0
-  clickCounter: 0
+  phoenixTimerReset: 0
   moveSpeed: 30
   jumpSpeed: 2500
   slashAttackCollider: {fileID: 4157850645813486498}
   chainAttackCollider: {fileID: 4912361760400049256}
-  isJumping: 0
 --- !u!50 &321774131
 Rigidbody2D:
   serializedVersion: 4
@@ -310,13 +308,13 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 10
   m_Material: {fileID: 6200000, guid: 714c6cf6df7a9b644963297b5c9cd9c8, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1 &8307568619206792832
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,7 +326,7 @@ GameObject:
   - component: {fileID: 8307568619206792838}
   - component: {fileID: 8307568619206792839}
   - component: {fileID: 2964170624591357951}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -342,9 +340,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8307568619206792832}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 9, y: 9, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children:
   - {fileID: 775310360733956097}
   - {fileID: 22497679559335630}
@@ -392,7 +390,7 @@ SpriteRenderer:
   m_SortingOrder: 40
   m_Sprite: {fileID: -855298285791758126, guid: da5667a46c96e5d499d9d13764cf345d,
     type: 3}
-  m_Color: {r: 0.7830189, g: 0.7054557, b: 0.7054557, a: 1}
+  m_Color: {r: 0.9529412, g: 0.9529412, b: 0.9529412, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -415,16 +413,16 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: 0.012757197, y: 0.01500392}
+  m_Offset: {x: -0.015881285, y: 0.0044260025}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.97, y: 0.95}
+    pivot: {x: 0.5589556, y: 0.5}
+    oldSize: {x: 0.88, y: 0.95}
     newSize: {x: 0.97, y: 0.95}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.78142357, y: 0.9311471}
+  m_Size: {x: 0.7241466, y: 0.9417249}
   m_EdgeRadius: 0

@@ -5,8 +5,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Animator animator;
-    public float comboTimer;
-    public int clickCounter;
+    private float comboTimer;
+    private float phoenixTimer;
+    public float phoenixTimerReset;
+    private int clickCounter;
     private float horizontalMove;
     private float verticalMove;
     public float moveSpeed;
@@ -14,7 +16,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rigidbody;
     public BoxCollider2D slashAttackCollider;
     public BoxCollider2D chainAttackCollider;
-    public bool isJumping;
+    private bool isJumping;
     private bool phoenix;
 
 
@@ -25,6 +27,8 @@ public class PlayerController : MonoBehaviour
         chainAttackCollider.enabled = false;
         clickCounter = 0;
         comboTimer = -1f;
+        phoenixTimerReset = 10f;
+        phoenixTimer = 0f;
         isJumping = false;
         phoenix = false;
         rigidbody = GetComponent<Rigidbody2D>();     
@@ -34,13 +38,9 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         horizontalMove = Input.GetAxisRaw("Horizontal") * moveSpeed;
-        animator.SetFloat("run", Mathf.Abs(horizontalMove));     
-        comboTimer -= Time.deltaTime;
-        if(comboTimer <= 0f)
-        {
-            clickCounter = 0;
-        }
-        
+        animator.SetFloat("run", Mathf.Abs(horizontalMove));
+        CoolDowns();        
+
     }
 
     private void FixedUpdate()
@@ -50,14 +50,26 @@ public class PlayerController : MonoBehaviour
             Run();
             Attack();
             Jump();
+        } 
+    }
+
+    void CoolDowns()
+    {
+        comboTimer -= Time.deltaTime;
+        phoenixTimer -= Time.deltaTime;
+        if (comboTimer <= 0f)
+        {
+            clickCounter = 0;
         }
- 
+        if (phoenixTimer <= 0f)
+        {
+            phoenixTimer = 0;
+        }
     }
 
     void ResetAnimationParameters()
     {
         animator.SetBool("jump", false);       
-        animator.SetBool("combo", false);
         animator.SetBool("slash", false);
         animator.SetBool("chain", false);
         animator.SetBool("phoenix", false);
@@ -89,12 +101,12 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("slash", true);
         }
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isJumping)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isJumping && phoenixTimer <= 0f)
         {
             phoenix = true;
             rigidbody.isKinematic = true;
-            animator.Play("PhoenixDive");
-
+            animator.SetBool("phoenix", true);
+            phoenixTimer = phoenixTimerReset;
         }
 
     }
@@ -123,15 +135,14 @@ public class PlayerController : MonoBehaviour
         {
             isJumping = true;
             animator.SetBool("jump", true);
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpSpeed * Time.fixedDeltaTime);         
-
+            rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpSpeed * Time.fixedDeltaTime);
         }
-
-        if(rigidbody.velocity.y <= 0)
+        if(rigidbody.velocity.y <= -3f)
         {
             animator.SetBool("jump", false);
-        }       
-        
+            
+        }
+
     }
 
 
