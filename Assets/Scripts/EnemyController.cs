@@ -54,8 +54,8 @@ public class EnemyController : MonoBehaviour
         if (goRight && !playerInRange)
         {
             transform.Translate(Vector2.right * walkSpeed * Time.deltaTime);
-
-            if(Math.Abs(transform.position.x - rightBorderPosition.x) <= 1f)
+            
+            if (Math.Abs(transform.position.x - rightBorderPosition.x) <= 1f)
             {
                 goRight = false;
             }
@@ -63,7 +63,7 @@ public class EnemyController : MonoBehaviour
         if (!goRight && !playerInRange)
         {
             transform.Translate(Vector2.left * walkSpeed * Time.deltaTime);
-
+            
             if (Math.Abs(transform.position.x - leftBorderPosition.x) <= 1f)
             {
                 goRight = true;

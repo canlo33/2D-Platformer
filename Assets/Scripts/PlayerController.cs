@@ -4,43 +4,49 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+
     private Animator animator;
+    private Rigidbody2D rigidbody;
+    private Transform particlePosition;
     private float comboTimer;
     private float phoenixTimer;
     public float phoenixTimerReset;
     private int clickCounter;
     private float horizontalMove;
-    private float verticalMove;
     public float moveSpeed;
     public float jumpSpeed;
-    private Rigidbody2D rigidbody;
+    public GameObject dustParticle;
+    public GameObject runParticle;
     public BoxCollider2D slashAttackCollider;
     public BoxCollider2D chainAttackCollider;
-    private bool isJumping;
+    private int jumpCount = 2;
     private bool phoenix;
+    private bool spawnParticle = false;
 
 
     void Start()
     {        
         animator = GetComponent<Animator>();
+        particlePosition = transform.Find("ParticlePosition").GetComponent<Transform>();
         slashAttackCollider.enabled = false;
         chainAttackCollider.enabled = false;
         clickCounter = 0;
         comboTimer = -1f;
         phoenixTimerReset = 10f;
-        phoenixTimer = 0f;
-        isJumping = false;
+        phoenixTimer = 0f;    
         phoenix = false;
-        rigidbody = GetComponent<Rigidbody2D>();     
-        
+        rigidbody = GetComponent<Rigidbody2D>();
+
     }
 
-    void Update()
+
+    private void Update()
     {
         horizontalMove = Input.GetAxisRaw("Horizontal") * moveSpeed;
         animator.SetFloat("run", Mathf.Abs(horizontalMove));
-        CoolDowns();        
-
+        CoolDowns();
+        GravityScale();
+        Jump();
     }
 
     private void FixedUpdate()
@@ -48,8 +54,7 @@ public class PlayerController : MonoBehaviour
         if(!phoenix)
         {
             Run();
-            Attack();
-            Jump();
+            Attack();            
         } 
     }
 
@@ -69,44 +74,52 @@ public class PlayerController : MonoBehaviour
 
     void ResetAnimationParameters()
     {
-        animator.SetBool("jump", false);       
+        animator.SetBool("jump", false);
+        animator.SetBool("doubleJump", false);
         animator.SetBool("slash", false);
         animator.SetBool("chain", false);
-        animator.SetBool("phoenix", false);
+        animator.SetBool("phoenixRight", false);
+        animator.SetBool("phoenixLeft", false);
         slashAttackCollider.enabled = false;
         transform.rotation = Quaternion.identity;
         rigidbody.isKinematic = false;
         phoenix = false;
-
     }
+
+    void CreateRunParticles()
+    {
+        Instantiate(runParticle, particlePosition.position, particlePosition.rotation);
+    }
+       
 
     void Attack()
     {
         //Slash Attack
-        if (Input.GetMouseButtonDown(0) && !isJumping && clickCounter == 0)
+        if (Input.GetMouseButtonDown(0) && jumpCount > 0 && clickCounter == 0)
         {
             animator.SetBool("slash", true);
             clickCounter++;
             comboTimer = .90f;
         }
         //Combo Chain Attack
-        else if (Input.GetMouseButtonDown(0) && !isJumping && clickCounter == 1 && comboTimer >= 0f && animator.GetFloat("run") < 0.01)
+        else if (Input.GetMouseButtonDown(0) && jumpCount == 2 && clickCounter == 1 && comboTimer >= 0f && animator.GetFloat("run") < 0.01)
         {
             clickCounter--;
             animator.SetBool("slash", false);
             animator.SetBool("chain", true);
 
         }
-        if (Input.GetMouseButtonDown(0) && isJumping)
-        {
-            animator.SetBool("slash", true);
-        }
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isJumping && phoenixTimer <= 0f)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && jumpCount == 2 && phoenixTimer <= 0f)
         {
             phoenix = true;
-            rigidbody.isKinematic = true;
-            animator.SetBool("phoenix", true);
+            rigidbody.isKinematic = true;            
             phoenixTimer = phoenixTimerReset;
+            if (transform.localScale.x > 0)
+            {
+                animator.SetBool("phoenixRight", true);
+            }
+            else animator.SetBool("phoenixLeft", true);
+
         }
 
     }
@@ -131,17 +144,34 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if(!isJumping && Input.GetButton("Jump"))
+        if (jumpCount > 0 && Input.GetButtonDown("Jump") && !phoenix)
         {
-            isJumping = true;
-            animator.SetBool("jump", true);
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpSpeed * Time.fixedDeltaTime);
-        }
-        if(rigidbody.velocity.y <= -3f)
-        {
-            animator.SetBool("jump", false);
             
+            if (jumpCount == 2)
+            {
+                animator.SetBool("jump", true);
+            }
+            else if (jumpCount == 1)
+            {
+                animator.SetBool("jump", false);
+                animator.SetBool("doubleJump", true);
+            }
+            jumpCount--;
+            rigidbody.velocity = Vector2.up * jumpSpeed;
+            spawnParticle = true;
+
+        } 
+
+
+    }
+    
+    private void GravityScale()
+    {
+        if (rigidbody.velocity.y <= -5f)
+        {
+            rigidbody.gravityScale = 23f;                       
         }
+        else rigidbody.gravityScale = 10f;
 
     }
 
@@ -151,20 +181,16 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.transform.tag == "Ground")
         {
+            if(spawnParticle)
+            {
+                Instantiate(dustParticle, particlePosition.position, particlePosition.rotation);
+            }
             ResetAnimationParameters();
-            isJumping = false;
-            animator.SetBool("jump", false);
+            jumpCount = 2;
+            spawnParticle = false;
         }
 
     }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.transform.tag == "Ground")
-        {
-            isJumping = true;
-        }
-    }
-
 
 
 }
