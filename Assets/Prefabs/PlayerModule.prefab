@@ -282,7 +282,7 @@ Transform:
   m_GameObject: {fileID: 6272883567043293968}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children:
   - {fileID: 8307568619206792838}
   - {fileID: 1214226720170006088}
@@ -325,6 +325,7 @@ MonoBehaviour:
   jumpSpeed: 50
   dustParticle: {fileID: 391203421724118018, guid: cd022aff4bc73434b9b27ecbab175fa9,
     type: 3}
+  runParticle: {fileID: 0}
   slashAttackCollider: {fileID: 4157850645813486498}
   chainAttackCollider: {fileID: 4912361760400049256}
 --- !u!50 &321774131

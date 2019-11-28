@@ -78,8 +78,7 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("doubleJump", false);
         animator.SetBool("slash", false);
         animator.SetBool("chain", false);
-        animator.SetBool("phoenixRight", false);
-        animator.SetBool("phoenixLeft", false);
+        animator.SetBool("phoenix", false);
         slashAttackCollider.enabled = false;
         transform.rotation = Quaternion.identity;
         rigidbody.isKinematic = false;
@@ -89,6 +88,11 @@ public class PlayerController : MonoBehaviour
     void CreateRunParticles()
     {
         Instantiate(runParticle, particlePosition.position, particlePosition.rotation);
+    }
+
+    void ShakeCam()
+    {
+        GameMaster.gameMaster.StartCoroutine(GameMaster.gameMaster.ShakeCamera(15, .25f));
     }
        
 
@@ -114,14 +118,8 @@ public class PlayerController : MonoBehaviour
             phoenix = true;
             rigidbody.isKinematic = true;            
             phoenixTimer = phoenixTimerReset;
-            if (transform.localScale.x > 0)
-            {
-                animator.SetBool("phoenixRight", true);
-            }
-            else animator.SetBool("phoenixLeft", true);
-
+            animator.SetBool("phoenix", true); 
         }
-
     }
 
     private void Run()
@@ -184,6 +182,10 @@ public class PlayerController : MonoBehaviour
             if(spawnParticle)
             {
                 Instantiate(dustParticle, particlePosition.position, particlePosition.rotation);
+                if(jumpCount == 0)
+                {
+                    GameMaster.gameMaster.StartCoroutine(GameMaster.gameMaster.ShakeCamera(10, .25f));
+                }                
             }
             ResetAnimationParameters();
             jumpCount = 2;
