@@ -14,15 +14,18 @@ public class EnemyController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     private Rigidbody2D rigidbody;
+    public HealthSystem enemyHealth;
     public float attackCoolDown;
+    private float attackCoolDownTimer;
     public Vector3 offset;
+    public int health;
     public float walkSpeed;
     public float StoppingDistance;
     public float detectionRange;
     private Transform player;
     public bool goRight = true;
     public bool playerInRange = false;
-    public bool attack = false;
+    private bool attack = false;
 
     void Start()
     {
@@ -33,8 +36,10 @@ public class EnemyController : MonoBehaviour
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
         scale = transform.localScale;
+        enemyHealth = new HealthSystem(health);
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        attackCoolDown = 1f;
+        attackCoolDownTimer = attackCoolDown;
+        Debug.Log(rightBorderPosition);
     }
 
     void Update()
@@ -42,20 +47,20 @@ public class EnemyController : MonoBehaviour
         VelocityCalculator();
         Rotation();
         animator.SetFloat("walk", Math.Abs(currentFrameVelocity.x));
-        WalkAround();
+        Patrol();
         ChaseAndAttack();
-        attackCoolDown -= Time.deltaTime;
-        
+        attackCoolDownTimer -= Time.deltaTime;
+                
     }
 
 
-    void WalkAround()
+    void Patrol()
     {
         if (goRight && !playerInRange)
         {
             transform.Translate(Vector2.right * walkSpeed * Time.deltaTime);
             
-            if (Math.Abs(transform.position.x - rightBorderPosition.x) <= 1f)
+            if ((transform.position.x - rightBorderPosition.x) >= 1f)
             {
                 goRight = false;
             }
@@ -64,7 +69,7 @@ public class EnemyController : MonoBehaviour
         {
             transform.Translate(Vector2.left * walkSpeed * Time.deltaTime);
             
-            if (Math.Abs(transform.position.x - leftBorderPosition.x) <= 1f)
+            if ((transform.position.x - leftBorderPosition.x) <= 1f)
             {
                 goRight = true;
             }
@@ -85,12 +90,12 @@ public class EnemyController : MonoBehaviour
             attack = false;
         }
         if(Math.Abs(transform.position.x - player.position.x) <= StoppingDistance)
-        {
+        {            
             attack = true;
-            if(attackCoolDown <= 0)
+            if(attackCoolDownTimer <= 0)
             {
                 animator.SetBool("attack", true);
-                attackCoolDown = 1f;
+                attackCoolDownTimer = attackCoolDown;
             }
             
         }
@@ -110,14 +115,24 @@ public class EnemyController : MonoBehaviour
 
     void Rotation()
     {
-        if (currentFrameVelocity.x < -1f)
+        if (currentFrameVelocity.x < -5f && !attack)
         {
-            transform.localScale = new Vector3(-scale.x, scale.y, scale.z);          
-            
+            transform.localScale = new Vector3(-scale.x, scale.y, scale.z);    
         }
-        else if(currentFrameVelocity.x > 1f)
+        else if (currentFrameVelocity.x > 5f && !attack)
         {
             transform.localScale = new Vector3(scale.x, scale.y, scale.z);
+        }
+        else if(currentFrameVelocity.x == 0 && attack)
+        {
+            if(player.position.x - transform.position.x > 5f)
+            {
+                transform.localScale = new Vector3(scale.x, scale.y, scale.z);
+            }
+            else if (player.position.x - transform.position.x < -5f)
+            {
+                transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
+            }
         }
     }
 

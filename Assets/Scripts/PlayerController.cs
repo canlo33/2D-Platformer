@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
-{
-
+{   
     private Animator animator;
     private Rigidbody2D rigidbody;
     private Transform particlePosition;
     private float comboTimer;
     private float phoenixTimer;
+    public int health;
     public float phoenixTimerReset;
     private int clickCounter;
     private float horizontalMove;
     public float moveSpeed;
     public float jumpSpeed;
+    public HealthSystem playerHealth;
     public GameObject dustParticle;
     public GameObject runParticle;
     public BoxCollider2D slashAttackCollider;
@@ -32,11 +33,11 @@ public class PlayerController : MonoBehaviour
         chainAttackCollider.enabled = false;
         clickCounter = 0;
         comboTimer = -1f;
-        phoenixTimerReset = 10f;
-        phoenixTimer = 0f;    
+        phoenixTimer = phoenixTimerReset;    
         phoenix = false;
         rigidbody = GetComponent<Rigidbody2D>();
-
+        playerHealth = new HealthSystem(health);
+   
     }
 
 
@@ -47,6 +48,7 @@ public class PlayerController : MonoBehaviour
         CoolDowns();
         GravityScale();
         Jump();
+        Die();
     }
 
     private void FixedUpdate()
@@ -90,9 +92,9 @@ public class PlayerController : MonoBehaviour
         Instantiate(runParticle, particlePosition.position, particlePosition.rotation);
     }
 
-    void ShakeCam()
+    public void ShakeCam()
     {
-        GameMaster.gameMaster.StartCoroutine(GameMaster.gameMaster.ShakeCamera(15, .25f));
+        GameMaster.gameMaster.StartCoroutine(GameMaster.gameMaster.ShakeCamera(15, .10f));
     }
        
 
@@ -123,7 +125,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Run()
-    {
+    {        
         transform.Translate(horizontalMove * Time.fixedDeltaTime, 0f, 0f);
         if (horizontalMove > 0 && transform.localScale.x < 0)
         {
@@ -134,7 +136,6 @@ public class PlayerController : MonoBehaviour
         else if (horizontalMove < 0 && transform.localScale.x > 0)
         {
             transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
-
         }
         
 
@@ -159,8 +160,14 @@ public class PlayerController : MonoBehaviour
             spawnParticle = true;
 
         } 
+    }
 
-
+    private void Die()
+    {
+        if(playerHealth.GetHealth() == 0)
+        {
+            //Dead
+        }
     }
     
     private void GravityScale()
@@ -184,7 +191,7 @@ public class PlayerController : MonoBehaviour
                 Instantiate(dustParticle, particlePosition.position, particlePosition.rotation);
                 if(jumpCount == 0)
                 {
-                    GameMaster.gameMaster.StartCoroutine(GameMaster.gameMaster.ShakeCamera(10, .25f));
+                    GameMaster.gameMaster.StartCoroutine(GameMaster.gameMaster.ShakeCamera(10, .15f));
                 }                
             }
             ResetAnimationParameters();

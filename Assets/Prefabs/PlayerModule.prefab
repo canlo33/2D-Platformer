@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 287711713}
   - component: {fileID: 287711714}
-  - component: {fileID: 287711715}
+  - component: {fileID: 7219869799974777089}
   m_Layer: 9
   m_Name: PhoenixDiveTrigger
   m_TagString: Attack
@@ -72,7 +72,7 @@ EdgeCollider2D:
   - {x: 0.27653575, y: -0.34783155}
   - {x: 0.009851695, y: -0.5635849}
   - {x: -0.18541603, y: -0.6458901}
---- !u!114 &287711715
+--- !u!114 &7219869799974777089
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -81,9 +81,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 287711712}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8fa4508e46f32c448fa343bb33eaf53, type: 3}
+  m_Script: {fileID: 11500000, guid: b7e59b4dbe1ce8c47b706fbe2f34053d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageAmount: 50
 --- !u!1 &281702741238275052
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +95,7 @@ GameObject:
   m_Component:
   - component: {fileID: 22497679559335630}
   - component: {fileID: 4912361760400049256}
-  - component: {fileID: 6143338432350196304}
+  - component: {fileID: 1673476549664685875}
   m_Layer: 9
   m_Name: ChainAttackTrigger
   m_TagString: Attack
@@ -142,7 +143,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &6143338432350196304
+--- !u!114 &1673476549664685875
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -151,9 +152,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 281702741238275052}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3038fc97afdb72547a70ea053e9639a6, type: 3}
+  m_Script: {fileID: 11500000, guid: b7e59b4dbe1ce8c47b706fbe2f34053d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageAmount: 25
 --- !u!1 &2876029309559646440
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,7 +166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 775310360733956097}
   - component: {fileID: 4157850645813486498}
-  - component: {fileID: 5957236213843614596}
+  - component: {fileID: 2746643785935662008}
   m_Layer: 9
   m_Name: SlashAttackTrigger
   m_TagString: Attack
@@ -212,7 +214,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.1094495, y: 0.5732019}
   m_EdgeRadius: 0
---- !u!114 &5957236213843614596
+--- !u!114 &2746643785935662008
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -224,6 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7e59b4dbe1ce8c47b706fbe2f34053d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageAmount: 10
 --- !u!1 &3620972573726091474
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,6 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c920d9ae67a092844a7c54b251d5d85b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
   phoenixTimerReset: 0
   moveSpeed: 30
   jumpSpeed: 50
