@@ -6,7 +6,7 @@ using Cinemachine;
 public class GameMaster : MonoBehaviour
 {
     public static GameMaster gameMaster;
-    public CinemachineVirtualCamera virtualCamera;
+    private CinemachineVirtualCamera virtualCamera;
     
     private void Awake()
     {

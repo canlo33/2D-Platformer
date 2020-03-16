@@ -15,6 +15,7 @@ public class EnemyController : MonoBehaviour
     private Animator animator;
     private Rigidbody2D rigidbody;
     public HealthSystem enemyHealth;
+    public GameObject bloodEffect;
     public float attackCoolDown;
     private float attackCoolDownTimer;
     public Vector3 offset;
@@ -23,9 +24,10 @@ public class EnemyController : MonoBehaviour
     public float StoppingDistance;
     public float detectionRange;
     private Transform player;
-    public bool goRight = true;
-    public bool playerInRange = false;
+    private bool goRight = true;
+    private bool playerInRange = false;
     private bool attack = false;
+    public bool isHurt = false;
 
     void Start()
     {
@@ -39,7 +41,7 @@ public class EnemyController : MonoBehaviour
         enemyHealth = new HealthSystem(health);
         player = GameObject.FindGameObjectWithTag("Player").transform;
         attackCoolDownTimer = attackCoolDown;
-        Debug.Log(rightBorderPosition);
+        
     }
 
     void Update()
@@ -49,8 +51,8 @@ public class EnemyController : MonoBehaviour
         animator.SetFloat("walk", Math.Abs(currentFrameVelocity.x));
         Patrol();
         ChaseAndAttack();
-        attackCoolDownTimer -= Time.deltaTime;
-                
+        Hurt();
+        Die();
     }
 
 
@@ -92,20 +94,37 @@ public class EnemyController : MonoBehaviour
         if(Math.Abs(transform.position.x - player.position.x) <= StoppingDistance)
         {            
             attack = true;
-            if(attackCoolDownTimer <= 0)
+            attackCoolDownTimer -= Time.deltaTime;
+            if (attackCoolDownTimer <= 0 && !isHurt)
             {
                 animator.SetBool("attack", true);
                 attackCoolDownTimer = attackCoolDown;
-            }
-            
+            }            
         }
-        if (Math.Abs(transform.position.x - player.position.x) > StoppingDistance)
+        if (Math.Abs(transform.position.x - player.position.x) > StoppingDistance + 10f)
         {
             attack = false;
+            attackCoolDownTimer = attackCoolDown;
         }
-
-
     }
+
+    void Hurt()
+    {
+        if(isHurt)
+        {
+            animator.SetBool("hurt", true);
+        }
+    }
+
+    void Die()
+    {
+        if(enemyHealth.GetHealth() <= 0)
+        {
+            Instantiate(bloodEffect, transform.position, transform.rotation);
+            Destroy(gameObject);
+        }
+    }
+
 
     void VelocityCalculator()
     {
@@ -139,13 +158,14 @@ public class EnemyController : MonoBehaviour
     void ResetAnimationParameters()
     {
         animator.SetBool("attack", false);
+        animator.SetBool("hurt", false);
+        isHurt = false;
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
-        
+        Gizmos.DrawWireSphere(transform.position, detectionRange);        
     }
 
 }

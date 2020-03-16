@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2658446222246393699}
   - component: {fileID: 8117208289589390291}
   - component: {fileID: 2658446222246393711}
-  - component: {fileID: 1079788144451387291}
+  - component: {fileID: 277913565}
   m_Layer: 0
   m_Name: EnemyKnight
   m_TagString: Enemy
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 2658446222246393710}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 250, y: 8.52, z: 0}
-  m_LocalScale: {x: -15, y: 15, z: 1}
+  m_LocalScale: {x: -10, y: 10, z: 1}
   m_Children:
   - {fileID: 4603688954206970609}
   m_Father: {fileID: 0}
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 40
+  m_SortingOrder: 39
   m_Sprite: {fileID: 21300000, guid: 84ce2f114ad12bd4ebafc77060220324, type: 3}
   m_Color: {r: 0.9529412, g: 0.9529412, b: 0.9529412, a: 1}
   m_FlipX: 1
@@ -137,16 +137,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64015092e12d9c243b220d25e702a1c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCoolDown: 2
+  bloodEffect: {fileID: 3732088311377371711, guid: ecfa2a4249a2c7e4f9627c34ebc878ab,
+    type: 3}
+  attackCoolDown: 1
   offset: {x: 20, y: 0, z: 0}
-  health: 200
+  health: 100
   walkSpeed: 10
   StoppingDistance: 20
   detectionRange: 50
-  goRight: 1
-  playerInRange: 0
---- !u!70 &1079788144451387291
-CapsuleCollider2D:
+  isHurt: 0
+--- !u!60 &277913565
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -158,9 +159,58 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.042726584, y: -0.52140415}
-  m_Size: {x: 0.86667114, y: 1.4308137}
-  m_Direction: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5.12, y: 2.56}
+    newSize: {x: 5.12, y: 2.56}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.35147706, y: -0.77}
+      - {x: 0.35, y: -0.66999996}
+      - {x: 0.37765607, y: -0.53700125}
+      - {x: 0.42772526, y: -0.42700142}
+      - {x: 0.40127057, y: -0.3537518}
+      - {x: 0.3757955, y: -0.209839}
+      - {x: 0.3635132, y: -0.12797712}
+      - {x: 0.3557017, y: -0.06809153}
+      - {x: 0.3369334, y: -0.029831124}
+      - {x: 0.2649862, y: 0.005631892}
+      - {x: 0.14351197, y: -0.0012802124}
+      - {x: 0.0468277, y: 0.055203915}
+      - {x: 0.01751709, y: 0.06320038}
+      - {x: -0.007080078, y: 0.119305804}
+      - {x: -0.028477479, y: 0.13116646}
+      - {x: -0.06695404, y: 0.13276033}
+      - {x: -0.13079834, y: 0.08077297}
+      - {x: -0.19091645, y: 0.008212757}
+      - {x: -0.42970785, y: -0.0653403}
+      - {x: -0.47770843, y: -0.15920639}
+      - {x: -0.4925583, y: -0.33512607}
+      - {x: -0.44732973, y: -0.51242745}
+      - {x: -0.33608705, y: -0.6378587}
+      - {x: -0.3900391, y: -0.72221285}
+      - {x: -0.3260905, y: -0.74415976}
+      - {x: -0.3317505, y: -0.8330833}
+      - {x: -0.35543367, y: -0.9240967}
+      - {x: -0.35897827, y: -0.9409935}
+      - {x: -0.36014253, y: -0.96841586}
+      - {x: -0.28937888, y: -1.0390255}
+      - {x: -0.33897606, y: -1.0885153}
+      - {x: -0.3172913, y: -1.141507}
+      - {x: -0.22872621, y: -1.2062255}
+      - {x: -0.20005393, y: -1.2333837}
+      - {x: -0.036247764, y: -1.2183414}
+      - {x: 0.057209272, y: -1.1926745}
+      - {x: 0.087865196, y: -1.1293192}
+      - {x: 0.1704478, y: -1.0737349}
+      - {x: 0.28194886, y: -1.0039314}
+      - {x: 0.32843122, y: -0.9366375}
 --- !u!1 &3110804803151884598
 GameObject:
   m_ObjectHideFlags: 0

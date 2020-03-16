@@ -8,6 +8,7 @@ public class EnemyAttack : MonoBehaviour
     private EnemyController self;
     private PlayerController playerController;
     public int damageAmount;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +22,7 @@ public class EnemyAttack : MonoBehaviour
     {
         if(collision.tag == "Player")
         {            
-            playerController.playerHealth.Damage(damageAmount);
+            playerController.playerHealth.Damage(damageAmount);    
             
         }
     }

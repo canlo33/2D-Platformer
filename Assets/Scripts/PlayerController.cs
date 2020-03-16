@@ -12,20 +12,20 @@ public class PlayerController : MonoBehaviour
     public int health;
     public float phoenixTimerReset;
     private int clickCounter;
-    private float horizontalMove;
+    public float horizontalMove;
     public float moveSpeed;
     public float jumpSpeed;
     public HealthSystem playerHealth;
-    public GameObject dustParticle;
-    public GameObject runParticle;
+    public ParticleSystem dustParticle;
+    public ParticleSystem runParticle;
     public BoxCollider2D slashAttackCollider;
     public BoxCollider2D chainAttackCollider;
     private int jumpCount = 2;
     private bool phoenix;
-    private bool spawnParticle = false;
+    private bool spawnParticle = false;    
 
 
-    void Start()
+    void Awake()
     {        
         animator = GetComponent<Animator>();
         particlePosition = transform.Find("ParticlePosition").GetComponent<Transform>();
@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
         phoenix = false;
         rigidbody = GetComponent<Rigidbody2D>();
         playerHealth = new HealthSystem(health);
-   
+         
     }
 
 
@@ -56,7 +56,8 @@ public class PlayerController : MonoBehaviour
         if(!phoenix)
         {
             Run();
-            Attack();            
+            Attack();
+                       
         } 
     }
 
@@ -125,12 +126,12 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Run()
-    {        
+    {   
+        
         transform.Translate(horizontalMove * Time.fixedDeltaTime, 0f, 0f);
         if (horizontalMove > 0 && transform.localScale.x < 0)
         {
             transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
-
 
         }
         else if (horizontalMove < 0 && transform.localScale.x > 0)
@@ -180,19 +181,17 @@ public class PlayerController : MonoBehaviour
 
     }
 
-
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.tag == "Ground")
+        if (collision.transform.tag == "Ground" || collision.transform.tag == "Enemy")
         {
-            if(spawnParticle)
+            if (spawnParticle)
             {
                 Instantiate(dustParticle, particlePosition.position, particlePosition.rotation);
-                if(jumpCount == 0)
+                if (jumpCount == 0)
                 {
                     GameMaster.gameMaster.StartCoroutine(GameMaster.gameMaster.ShakeCamera(10, .15f));
-                }                
+                }
             }
             ResetAnimationParameters();
             jumpCount = 2;

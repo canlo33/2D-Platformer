@@ -19,6 +19,7 @@ public class PlayerAttack : MonoBehaviour
         {
             enemyController = collision.GetComponent<EnemyController>();
             enemyController.enemyHealth.Damage(damageAmount);
+            enemyController.isHurt = true;
             playerController.ShakeCam();            
        
         }
