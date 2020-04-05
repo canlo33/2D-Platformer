@@ -7,14 +7,16 @@ public class GameMaster : MonoBehaviour
 {
     public static GameMaster gameMaster;
     private CinemachineVirtualCamera virtualCamera;
-    
+
+
     private void Awake()
     {
         if (gameMaster == null)
         {
             DontDestroyOnLoad(this);
             gameMaster = this;
-            virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
+            //virtualCamera = GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>();
+           
         }
         else Destroy(gameMaster); return;       
         
@@ -29,8 +31,8 @@ public class GameMaster : MonoBehaviour
 
     private void Noise(int amplitudeGain, int frequencyGain)
     {
-       virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = amplitudeGain;
-       virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = frequencyGain;
+       //virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = amplitudeGain;
+       //virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = frequencyGain;
     }
 
 }

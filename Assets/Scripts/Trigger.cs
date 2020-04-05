@@ -23,14 +23,12 @@ public class Trigger : MonoBehaviour
             animator.SetBool("triggered", true);
             platformScript.isMoving = true;
             playerOn = true;
-            Debug.Log(collision.gameObject.name + " Entered");
         }
         if (collision.gameObject.name == "PushableBox")
         {
             animator.SetBool("triggered", true);
             platformScript.isMoving = true;
             boxOn = true;
-            Debug.Log(collision.gameObject.name + " Entered");
         }
 
     }
@@ -40,12 +38,11 @@ public class Trigger : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             playerOn = false;
-            Debug.Log(collision.gameObject.name + " Exited");
         }
         if (collision.gameObject.name == "PushableBox")
         {
             boxOn = false;
-            Debug.Log(collision.gameObject.name + " Exited");
+
         }
         if(!playerOn && !boxOn)
         {

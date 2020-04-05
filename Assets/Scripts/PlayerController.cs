@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
-{   
+{
+    [SerializeField] private LayerMask groundLayer;
+    private bool isGrounded;
+    public Transform groundCheck;
+    public float checkRadius;
     private Animator animator;
     private Rigidbody2D rigidbody;
     private Transform particlePosition;
@@ -22,7 +26,8 @@ public class PlayerController : MonoBehaviour
     public BoxCollider2D chainAttackCollider;
     private int jumpCount = 2;
     private bool phoenix;
-    private bool spawnParticle = false;    
+    private bool spawnParticle = false;
+
 
 
     void Awake()
@@ -43,17 +48,20 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer);
         horizontalMove = Input.GetAxisRaw("Horizontal") * moveSpeed;
         animator.SetFloat("run", Mathf.Abs(horizontalMove));
         CoolDowns();
-        GravityScale();
+        GravityScale();        
         Jump();
+        PlayerLanded();
         Die();
     }
 
     private void FixedUpdate()
     {
-        if(!phoenix)
+        
+        if (!phoenix)
         {
             Run();
             Attack();
@@ -180,10 +188,11 @@ public class PlayerController : MonoBehaviour
         else rigidbody.gravityScale = 10f;
 
     }
+   
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void PlayerLanded()
     {
-        if (collision.transform.tag == "Ground" || collision.transform.tag == "Enemy")
+        if (isGrounded)
         {
             if (spawnParticle)
             {
@@ -193,12 +202,13 @@ public class PlayerController : MonoBehaviour
                     GameMaster.gameMaster.StartCoroutine(GameMaster.gameMaster.ShakeCamera(10, .15f));
                 }
             }
-            ResetAnimationParameters();
+            ResetAnimationParameters();            
             jumpCount = 2;
             spawnParticle = false;
+    
         }
-
     }
 
+   
 
 }
