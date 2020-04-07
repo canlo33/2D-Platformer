@@ -12,20 +12,20 @@ public class HealthCapsule : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        healthSystem = player.GetComponent<PlayerController>().playerHealth;
+        //healthSystem = player.GetComponent<HealthSystem>().healthSystem;
         
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Player" && healthSystem.GetHealth() != healthSystem.maxHealth)
-        {
-            healthSystem.Heal(healAmount);
-            // Particles Effects Here //
-            Destroy(gameObject);
-            Debug.Log("Healing");
+        //if(collision.tag == "Player" && healthSystem.GetHealth() != healthSystem.maxHealth)
+        //{
+        //    healthSystem.Heal(healAmount);
+        //    // Particles Effects Here //
+        //    Destroy(gameObject);
 
-        }
+
+        //}
     }
 
 }

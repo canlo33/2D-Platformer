@@ -13,14 +13,14 @@ public class EnemyController : MonoBehaviour
     private Vector3 currentFrameVelocity;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
-    private Rigidbody2D rigidbody;
-    public HealthSystem enemyHealth;
+    private Rigidbody2D rb2D;
     public GameObject bloodEffect;
     public float attackCoolDown;
     private float attackCoolDownTimer;
     public Vector3 offset;
     public int health;
     public float walkSpeed;
+    public float runSpeed;
     public float StoppingDistance;
     public float detectionRange;
     private Transform player;
@@ -28,6 +28,7 @@ public class EnemyController : MonoBehaviour
     private bool playerInRange = false;
     private bool attack = false;
     public bool isHurt = false;
+    private HealthSystem enemyHealthSystem;
 
     void Start()
     {
@@ -36,11 +37,11 @@ public class EnemyController : MonoBehaviour
         leftBorderPosition = startPosition - offset;
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        rigidbody = GetComponent<Rigidbody2D>();
+        rb2D = GetComponent<Rigidbody2D>();
         scale = transform.localScale;
-        enemyHealth = new HealthSystem(health);
         player = GameObject.FindGameObjectWithTag("Player").transform;
         attackCoolDownTimer = attackCoolDown;
+        enemyHealthSystem = GetComponent<HealthSystem>().healthSystem;
         
     }
 
@@ -48,11 +49,14 @@ public class EnemyController : MonoBehaviour
     {
         VelocityCalculator();
         Rotation();
-        animator.SetFloat("walk", Math.Abs(currentFrameVelocity.x));
+        animator.SetFloat("walk", Math.Abs(rb2D.velocity.x));        
+        Die();
+        
+    }
+    private void FixedUpdate()
+    {        
         Patrol();
         ChaseAndAttack();
-        Hurt();
-        Die();
     }
 
 
@@ -60,8 +64,8 @@ public class EnemyController : MonoBehaviour
     {
         if (goRight && !playerInRange)
         {
-            transform.Translate(Vector2.right * walkSpeed * Time.deltaTime);
-            
+            rb2D.velocity = new Vector2(walkSpeed * Time.fixedDeltaTime, rb2D.velocity.y);
+                        
             if ((transform.position.x - rightBorderPosition.x) >= 1f)
             {
                 goRight = false;
@@ -69,8 +73,8 @@ public class EnemyController : MonoBehaviour
         }
         if (!goRight && !playerInRange)
         {
-            transform.Translate(Vector2.left * walkSpeed * Time.deltaTime);
-            
+            rb2D.velocity = new Vector2(-walkSpeed * Time.fixedDeltaTime, rb2D.velocity.y);
+
             if ((transform.position.x - leftBorderPosition.x) <= 1f)
             {
                 goRight = true;
@@ -79,52 +83,60 @@ public class EnemyController : MonoBehaviour
         
     }
 
+
+
     void ChaseAndAttack()
     {
-        if(!attack &&(Math.Abs(transform.position.x - player.position.x)) <= detectionRange)
+        if (Math.Abs(transform.position.x - player.position.x) > StoppingDistance + 1f)
         {
-            playerInRange = true;
-            transform.position = Vector2.MoveTowards(transform.position, player.position, walkSpeed * 2f * Time.deltaTime);
+            attack = false;
+            attackCoolDownTimer = attackCoolDown;
         }
+
         if (Math.Abs(transform.position.x - player.position.x) > detectionRange)
         {
             playerInRange = false;
             attack = false;
         }
-        if(Math.Abs(transform.position.x - player.position.x) <= StoppingDistance)
-        {            
+
+        if (Math.Abs(transform.position.x - player.position.x) <= StoppingDistance)
+        {
+            rb2D.velocity = new Vector2(0f, rb2D.velocity.y);
             attack = true;
-            attackCoolDownTimer -= Time.deltaTime;
+            attackCoolDownTimer -= Time.fixedDeltaTime;
             if (attackCoolDownTimer <= 0 && !isHurt)
             {
-                animator.SetBool("attack", true);
+                animator.SetTrigger("attack");
                 attackCoolDownTimer = attackCoolDown;
+            }
+        }
+
+        if (!attack &&(Math.Abs(transform.position.x - player.position.x)) <= detectionRange)
+        {
+            playerInRange = true;
+
+            if (player.position.x > transform.position.x)
+            {
+                rb2D.velocity = new Vector2(walkSpeed * 1.5f * Time.fixedDeltaTime, rb2D.velocity.y);
+            }
+            if(player.position.x < transform.position.x)
+            {
+                rb2D.velocity = new Vector2(-walkSpeed * 1.5f * Time.fixedDeltaTime, rb2D.velocity.y);
             }            
         }
-        if (Math.Abs(transform.position.x - player.position.x) > StoppingDistance + 10f)
-        {
-            attack = false;
-            attackCoolDownTimer = attackCoolDown;
-        }
+
+
     }
 
-    void Hurt()
-    {
-        if(isHurt)
-        {
-            animator.SetBool("hurt", true);
-        }
-    }
 
     void Die()
     {
-        if(enemyHealth.GetHealth() <= 0)
+        if (enemyHealthSystem.GetHealth() <= 0)
         {
             Instantiate(bloodEffect, transform.position, transform.rotation);
             Destroy(gameObject);
         }
     }
-
 
     void VelocityCalculator()
     {
@@ -155,17 +167,12 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void ResetAnimationParameters()
-    {
-        animator.SetBool("attack", false);
-        animator.SetBool("hurt", false);
-        isHurt = false;
-    }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);        
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
+        
     }
 
 }

@@ -14,7 +14,6 @@ public class NinjaController : MonoBehaviour
     private float horizontalMove;
     public float moveSpeed;
     public float jumpSpeed;
-    public float gravityScale;
     public float groundCheckRadius;
     private bool isGrounded;
     private bool isRunning;
@@ -22,8 +21,16 @@ public class NinjaController : MonoBehaviour
     //FireBall 
     public GameObject fireBall;
     private Transform firePoint;
+    public float fireCD;
+    private float fireCoolDown;
 
+    //Strike Combo
+    public float strikeCT;
+    private float strikeComboTimer;
+    public int slashDamage;
+    public int strikeDamage;
 
+    
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +38,8 @@ public class NinjaController : MonoBehaviour
         animator = GetComponent<Animator>();
         rb2D = GetComponent<Rigidbody2D>();
         firePoint = GameObject.Find("FirePoint").transform;
+        fireCoolDown = fireCD;
+        strikeComboTimer = 0f;       
     }
 
     // Update is called once per frame
@@ -39,32 +48,46 @@ public class NinjaController : MonoBehaviour
         horizontalMove = Input.GetAxisRaw("Horizontal") * moveSpeed;
         animator.SetFloat("run", Mathf.Abs(horizontalMove));
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-        animator.SetBool("isGrounded", isGrounded);   
-        GravityScale();
-        Jump();
-        Run();
+        animator.SetBool("isGrounded", isGrounded);
+        Timers();
+        GravityScale();        
         Attack();
- 
+        PlayerHurt();
+        Jump();
+
+    }
+    void Timers()
+    {
+        fireCoolDown -= Time.deltaTime;
+        if (fireCoolDown < 0)
+        {
+            fireCoolDown = 0f;
+        }
+
+        strikeComboTimer -= Time.deltaTime;
+        if (strikeComboTimer < 0)
+        {
+            strikeComboTimer = 0f;
+        }
+
+    }
+
+    private void FixedUpdate()
+    {
+        Run();
 
     }
 
     private void Run()
     {
-        //transform.Translate(horizontalMove * Time.deltaTime, 0f, 0f);
-        rb2D.velocity = new Vector2(horizontalMove * Time.deltaTime, rb2D.velocity.y);
-        
-        if (horizontalMove > 0 && transform.rotation.y < -0.1f)
-        {
-            //transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
-            transform.Rotate(0f, 180f, 0f);
-           
 
-        }
-        else if (horizontalMove < 0 && transform.rotation.y > -0.1f)
+        rb2D.velocity = new Vector2(horizontalMove * Time.fixedDeltaTime, rb2D.velocity.y);
+        
+        if ((horizontalMove > 0 && transform.rotation.y < -0.1f) || (horizontalMove < 0 && transform.rotation.y > -0.1f))
         {
-            //transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
-            transform.Rotate(0f, 180f, 0f);
+            transform.Rotate(0f, 180f, 0f);    
         }
+
         if (Mathf.Abs(horizontalMove) > 0)
         {
             isRunning = true;
@@ -86,9 +109,9 @@ public class NinjaController : MonoBehaviour
 
     private void GravityScale()
     {
-        if (rb2D.velocity.y <= -5f)
+        if (rb2D.velocity.y <= 0f)
         {
-            rb2D.gravityScale = 23f;
+            rb2D.gravityScale = 53f;
         }
         else rb2D.gravityScale = 10f;
 
@@ -97,9 +120,16 @@ public class NinjaController : MonoBehaviour
     private void Attack()
     {
         // Slash Attack
-        if (isGrounded && Input.GetKeyDown(KeyCode.K))
+        if (isGrounded && Input.GetKeyDown(KeyCode.K) && strikeComboTimer <= 0.01f)
         {
             animator.SetTrigger("slash");
+            strikeComboTimer = strikeCT;
+        }
+        //Strike Combo
+        else if (isGrounded && Input.GetKeyDown(KeyCode.K) && strikeComboTimer > 0.01f)
+        {
+            animator.SetTrigger("strike");
+            strikeComboTimer = 0f;
         }
         // Jump Slash
         if (!isGrounded && Input.GetKeyDown(KeyCode.K))
@@ -107,25 +137,33 @@ public class NinjaController : MonoBehaviour
             animator.SetTrigger("jumpSlash"); 
         }
         //Fireball
-        if(isGrounded && Input.GetKeyDown(KeyCode.X) && !isRunning)
+        if(isGrounded && Input.GetKeyDown(KeyCode.X) && !isRunning && fireCoolDown <= 0)
         {
             animator.SetTrigger("fireball");
+            fireCoolDown = fireCD;
         }
         //Jump Fireball
-        if (!isGrounded && Input.GetKeyDown(KeyCode.X))
+        if (!isGrounded && Input.GetKeyDown(KeyCode.X) && fireCoolDown <= 0)
         {
             animator.SetTrigger("jumpFireball");
+            fireCoolDown = fireCD;
         }
 
     }
 
+    private void PlayerHurt()
+    {
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            animator.SetTrigger("hurt");
+        }
+    }
 
     private void FireBall()
     {
         GameObject fireBallObject = Instantiate(fireBall);
         fireBallObject.transform.position = firePoint.position;
-        fireBallObject.transform.rotation = firePoint.rotation;
-        //fireBallObject.GetComponent<Rigidbody2D>().velocity =
+        fireBallObject.transform.rotation = firePoint.rotation;       
     }
    
 }

@@ -4,26 +4,39 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public int damageAmount;
-    private EnemyController enemyController;
-    private PlayerController playerController;
+    private int slashDamage;
+    private int strikeDamage;
+    private GameObject player;
+    private Animator playerAnimator;
+    private HealthSystem enemyHealthSystem;
 
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
-        playerController = gameObject.GetComponentInParent<PlayerController>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerAnimator = player.GetComponent<Animator>();
+        slashDamage = GetComponentInParent<NinjaController>().slashDamage;
+        strikeDamage = GetComponentInParent<NinjaController>().strikeDamage;
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.tag == "Enemy")
+        if(collision.tag == "Enemy" || collision.tag == "Boss")
         {
-            enemyController = collision.GetComponent<EnemyController>();
-            enemyController.enemyHealth.Damage(damageAmount);
-            enemyController.isHurt = true;
-            playerController.ShakeCam();            
-       
-        }
-    }
+            enemyHealthSystem = collision.GetComponent<HealthSystem>().healthSystem;
 
+            if (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Ninja_Attack1"))
+            {
+                enemyHealthSystem.Damage(slashDamage);
+            }
+            else if (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Ninja_Strike"))
+            {
+               enemyHealthSystem.Damage(strikeDamage);
+
+            }
+        }  
+
+    }
 
 }

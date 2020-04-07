@@ -2,32 +2,45 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthSystem 
+public class HealthSystem : MonoBehaviour
 {
-    private int health;
+    private int currentHealth;
     public int maxHealth;
+    public bool isInvulnerable = false;
+    public HealthSystem healthSystem;
 
     public HealthSystem(int maxHealth)
     {
+   
         this.maxHealth = maxHealth;
-        health = maxHealth;
-    }
+        currentHealth = maxHealth;
+        
+    }    
 
     public int GetHealth()
     {
-        return health;
+        return currentHealth;
     }
 
     public void Damage(int damageAmount)
     {
-        health -= damageAmount;
-        if (health < 0) health = 0;       
+        if (isInvulnerable)
+            return;
+
+        currentHealth -= damageAmount;
+        if (currentHealth < 0) currentHealth = 0;
+        
     }
 
     public void Heal(int healAmount)
     {
-        health += healAmount;
-        if (health > maxHealth) health = maxHealth;
+        currentHealth += healAmount;
+        if (currentHealth > maxHealth) currentHealth = maxHealth;
+    }
+
+    private void Start()
+    {
+        this.healthSystem = new HealthSystem(maxHealth);
     }
 
 }

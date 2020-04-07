@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Trigger : MonoBehaviour
+public class PressurePad : MonoBehaviour
 {
     public GameObject platform;
     private MovingBridge platformScript;
@@ -16,7 +16,7 @@ public class Trigger : MonoBehaviour
         animator = gameObject.GetComponent<Animator>();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
@@ -30,10 +30,9 @@ public class Trigger : MonoBehaviour
             platformScript.isMoving = true;
             boxOn = true;
         }
-
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
@@ -44,16 +43,14 @@ public class Trigger : MonoBehaviour
             boxOn = false;
 
         }
-        if(!playerOn && !boxOn)
+        if (!playerOn && !boxOn)
         {
             animator.SetBool("triggered", false);
             platformScript.isMoving = false;
-            
-        }
 
+        }
     }
 
-   
 
 
 }

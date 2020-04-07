@@ -6,8 +6,6 @@ public class SawBlade : MonoBehaviour
 {
 
     public float rotationSpeed;
-    private GameObject gameMaster;
-    private GameMaster masterScript;
     public int damageAmount;
 
     private void Start()
