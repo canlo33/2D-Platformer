@@ -41,8 +41,8 @@ public class EnemyController : MonoBehaviour
         scale = transform.localScale;
         player = GameObject.FindGameObjectWithTag("Player").transform;
         attackCoolDownTimer = attackCoolDown;
-        enemyHealthSystem = GetComponent<HealthSystem>().healthSystem;
-        
+        enemyHealthSystem = gameObject.GetComponent<HealthSystem>();
+           
     }
 
     void Update()
@@ -90,13 +90,27 @@ public class EnemyController : MonoBehaviour
         if (Math.Abs(transform.position.x - player.position.x) > StoppingDistance + 1f)
         {
             attack = false;
-            attackCoolDownTimer = attackCoolDown;
+            attackCoolDownTimer = attackCoolDown;            
         }
 
         if (Math.Abs(transform.position.x - player.position.x) > detectionRange)
         {
             playerInRange = false;
-            attack = false;
+            attack = false;            
+        }
+
+        if ((!attack && (Math.Abs(transform.position.x - player.position.x)) <= detectionRange ) || enemyHealthSystem.isEnraged)
+        {
+            playerInRange = true;            
+
+            if (player.position.x > transform.position.x)
+            {
+                rb2D.velocity = new Vector2(walkSpeed * 3f * Time.fixedDeltaTime, rb2D.velocity.y);
+            }
+            if (player.position.x < transform.position.x)
+            {
+                rb2D.velocity = new Vector2(-walkSpeed * 3f * Time.fixedDeltaTime, rb2D.velocity.y);
+            }
         }
 
         if (Math.Abs(transform.position.x - player.position.x) <= StoppingDistance)
@@ -109,20 +123,6 @@ public class EnemyController : MonoBehaviour
                 animator.SetTrigger("attack");
                 attackCoolDownTimer = attackCoolDown;
             }
-        }
-
-        if (!attack &&(Math.Abs(transform.position.x - player.position.x)) <= detectionRange)
-        {
-            playerInRange = true;
-
-            if (player.position.x > transform.position.x)
-            {
-                rb2D.velocity = new Vector2(walkSpeed * 1.5f * Time.fixedDeltaTime, rb2D.velocity.y);
-            }
-            if(player.position.x < transform.position.x)
-            {
-                rb2D.velocity = new Vector2(-walkSpeed * 1.5f * Time.fixedDeltaTime, rb2D.velocity.y);
-            }            
         }
 
 

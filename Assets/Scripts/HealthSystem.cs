@@ -6,16 +6,14 @@ public class HealthSystem : MonoBehaviour
 {
     private int currentHealth;
     public int maxHealth;
+    public bool isEnraged = false;
     public bool isInvulnerable = false;
-    public HealthSystem healthSystem;
 
-    public HealthSystem(int maxHealth)
+
+    private void Start()
     {
-   
-        this.maxHealth = maxHealth;
         currentHealth = maxHealth;
-        
-    }    
+    }
 
     public int GetHealth()
     {
@@ -29,6 +27,7 @@ public class HealthSystem : MonoBehaviour
 
         currentHealth -= damageAmount;
         if (currentHealth < 0) currentHealth = 0;
+        isEnraged = true;
         
     }
 
@@ -36,11 +35,6 @@ public class HealthSystem : MonoBehaviour
     {
         currentHealth += healAmount;
         if (currentHealth > maxHealth) currentHealth = maxHealth;
-    }
-
-    private void Start()
-    {
-        this.healthSystem = new HealthSystem(maxHealth);
     }
 
 }

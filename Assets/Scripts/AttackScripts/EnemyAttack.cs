@@ -20,7 +20,7 @@ public class EnemyAttack : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
-            playerHealthSystem = player.GetComponent<HealthSystem>().healthSystem;
+            playerHealthSystem = player.GetComponent<HealthSystem>();
             playerHealthSystem.Damage(damageAmount);           
         }
     }

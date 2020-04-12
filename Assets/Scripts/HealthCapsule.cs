@@ -12,7 +12,7 @@ public class HealthCapsule : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        //healthSystem = player.GetComponent<HealthSystem>().healthSystem;
+        //healthSystem = player.GetComponent<HealthSystem>();
         
     }
 

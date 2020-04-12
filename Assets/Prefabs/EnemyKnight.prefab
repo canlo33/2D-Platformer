@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2658446222246393697}
   - component: {fileID: 2658446222246393696}
   - component: {fileID: 2658446222246393699}
-  - component: {fileID: 2658446222246393711}
   - component: {fileID: 1435124817242847726}
+  - component: {fileID: 2658446222246393711}
   - component: {fileID: 277913565}
   - component: {fileID: 8117208289589390291}
   m_Layer: 15
@@ -103,11 +103,27 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 13
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 714c6cf6df7a9b644963297b5c9cd9c8, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &1435124817242847726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2658446222246393710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ccbacd5dbe90d43bbbcec4f9b869c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 200
+  isEnraged: 0
+  isInvulnerable: 0
+  healthSystem: {fileID: 0}
 --- !u!114 &2658446222246393711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,29 +141,11 @@ MonoBehaviour:
   attackCoolDown: 1
   offset: {x: 20, y: 0, z: 0}
   health: 100
-  walkSpeed: 10
-  runSpeed: 0
+  walkSpeed: 500
+  runSpeed: 50
   StoppingDistance: 17
   detectionRange: 50
-  goRight: 1
-  playerInRange: 0
-  attack: 0
   isHurt: 0
---- !u!114 &1435124817242847726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2658446222246393710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41ccbacd5dbe90d43bbbcec4f9b869c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 200
-  isInvulnerable: 0
-  healthSystem: {fileID: 0}
 --- !u!60 &277913565
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -157,7 +155,7 @@ PolygonCollider2D:
   m_GameObject: {fileID: 2658446222246393710}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 714c6cf6df7a9b644963297b5c9cd9c8, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0

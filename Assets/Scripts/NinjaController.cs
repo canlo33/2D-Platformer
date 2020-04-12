@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class NinjaController : MonoBehaviour
 {
+    //Intro Animation Check
+    public bool isIntro = true;
+
     //Components
     private Animator animator;
     private Rigidbody2D rb2D;
@@ -39,12 +42,14 @@ public class NinjaController : MonoBehaviour
         rb2D = GetComponent<Rigidbody2D>();
         firePoint = GameObject.Find("FirePoint").transform;
         fireCoolDown = fireCD;
-        strikeComboTimer = 0f;       
+        strikeComboTimer = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isIntro) return;
+
         horizontalMove = Input.GetAxisRaw("Horizontal") * moveSpeed;
         animator.SetFloat("run", Mathf.Abs(horizontalMove));
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
@@ -74,6 +79,7 @@ public class NinjaController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isIntro) return;
         Run();
 
     }

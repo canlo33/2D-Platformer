@@ -6,6 +6,7 @@ public class ShootFireball : MonoBehaviour
 {
     public float speed;
     public int damage;
+    public GameObject explosion;
     private HealthSystem enemyHealthSystem;
     // Start is called before the first frame update
     void Start()
@@ -19,9 +20,11 @@ public class ShootFireball : MonoBehaviour
         {
             if(collision.tag == "Enemy")
             {
-                enemyHealthSystem = collision.GetComponent<HealthSystem>().healthSystem;
+                enemyHealthSystem = collision.GetComponent<HealthSystem>();
                 enemyHealthSystem.Damage(damage);
             }
+            GameObject boom = Instantiate(explosion);
+            boom.transform.position = transform.position;
             Destroy(gameObject);
         }
             

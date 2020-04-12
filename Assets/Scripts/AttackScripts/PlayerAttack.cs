@@ -24,7 +24,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if(collision.tag == "Enemy" || collision.tag == "Boss")
         {
-            enemyHealthSystem = collision.GetComponent<HealthSystem>().healthSystem;
+            enemyHealthSystem = collision.GetComponent<HealthSystem>();
 
             if (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Ninja_Attack1"))
             {
