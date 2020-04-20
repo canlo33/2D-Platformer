@@ -104,7 +104,7 @@ public class NinjaController : MonoBehaviour
 
     private void Jump()
     {
-        if(Input.GetKeyDown(KeyCode.W) && isGrounded)
+        if(Input.GetKey(KeyCode.W) && isGrounded)
         {
             rb2D.velocity = Vector2.up * jumpSpeed;
             animator.SetTrigger("jump");    

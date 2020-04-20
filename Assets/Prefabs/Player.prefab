@@ -42,8 +42,8 @@ GameObject:
   - component: {fileID: 4090273893639448387}
   - component: {fileID: 4090273893639448385}
   - component: {fileID: 4090273893639448384}
-  - component: {fileID: 4090273893639448390}
   - component: {fileID: 4090273893639448391}
+  - component: {fileID: 4090273893639448390}
   - component: {fileID: 4090273893639448445}
   m_Layer: 9
   m_Name: Player
@@ -159,31 +159,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &4090273893639448390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4090273893639448444}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc5c42b61e560844a88a473176ee0faf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundCheck: {fileID: 4090273893866434288}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 33024
-  moveSpeed: 2000
-  jumpSpeed: 60
-  groundCheckRadius: 2.2
-  fireBall: {fileID: 7583615148580897641, guid: 3db9f3f8f267aa24387ceab723daacd3,
-    type: 3}
-  fireCD: 1
-  strikeCT: 0.5
-  slashDamage: 10
-  strikeDamage: 20
 --- !u!61 &4090273893639448391
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -210,6 +185,32 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.8623455, y: 3.665458}
   m_EdgeRadius: 0
+--- !u!114 &4090273893639448390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4090273893639448444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc5c42b61e560844a88a473176ee0faf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isIntro: 1
+  groundCheck: {fileID: 4090273893866434288}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 33024
+  moveSpeed: 2000
+  jumpSpeed: 60
+  groundCheckRadius: 2.2
+  fireBall: {fileID: 7583615148580897641, guid: 3db9f3f8f267aa24387ceab723daacd3,
+    type: 3}
+  fireCD: 1
+  strikeCT: 0.5
+  slashDamage: 10
+  strikeDamage: 20
 --- !u!114 &4090273893639448445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,8 +224,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  isEnraged: 0
   isInvulnerable: 0
-  healthSystem: {fileID: 0}
 --- !u!1 &4090273893866434289
 GameObject:
   m_ObjectHideFlags: 0

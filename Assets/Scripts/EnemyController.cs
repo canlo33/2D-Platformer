@@ -17,10 +17,8 @@ public class EnemyController : MonoBehaviour
     public GameObject bloodEffect;
     public float attackCoolDown;
     private float attackCoolDownTimer;
-    public Vector3 offset;
-    public int health;
+    public Vector3 patrolOffset;
     public float walkSpeed;
-    public float runSpeed;
     public float StoppingDistance;
     public float detectionRange;
     private Transform player;
@@ -33,8 +31,8 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         startPosition = transform.position;
-        rightBorderPosition = startPosition + offset;
-        leftBorderPosition = startPosition - offset;
+        rightBorderPosition = startPosition + patrolOffset;
+        leftBorderPosition = startPosition - patrolOffset;
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         rb2D = GetComponent<Rigidbody2D>();
@@ -82,8 +80,6 @@ public class EnemyController : MonoBehaviour
         }
         
     }
-
-
 
     void ChaseAndAttack()
     {

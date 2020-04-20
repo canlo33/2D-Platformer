@@ -16,8 +16,7 @@ public class CamFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //transform.position = new Vector3(player.transform.position.x, 27f, -12f);
-        rigidbody.MovePosition(new Vector3(player.transform.position.x, 27f, -12f));       
+        rigidbody.MovePosition(new Vector3(player.transform.position.x, 27f, -50f));       
 
     }
 }

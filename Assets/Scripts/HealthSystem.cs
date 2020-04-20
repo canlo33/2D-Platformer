@@ -8,11 +8,14 @@ public class HealthSystem : MonoBehaviour
     public int maxHealth;
     public bool isEnraged = false;
     public bool isInvulnerable = false;
+    public GameObject hurtParticle;
+    private Animator animator;
 
 
     private void Start()
     {
         currentHealth = maxHealth;
+        animator = GetComponent<Animator>();
     }
 
     public int GetHealth()
@@ -26,8 +29,19 @@ public class HealthSystem : MonoBehaviour
             return;
 
         currentHealth -= damageAmount;
-        if (currentHealth < 0) currentHealth = 0;
+        if (currentHealth <= 0)
+        { 
+            currentHealth = 0;
+            animator.SetTrigger("die");            
+        }
+
         isEnraged = true;
+        if(gameObject.layer == 15)
+        {
+            GameObject go = Instantiate(hurtParticle);
+            go.transform.position = transform.position + new Vector3(0f, transform.localScale.y, 0f);
+
+        }
         
     }
 

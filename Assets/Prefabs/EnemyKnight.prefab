@@ -10,18 +10,18 @@ GameObject:
   m_Component:
   - component: {fileID: 2658446222246393697}
   - component: {fileID: 2658446222246393696}
+  - component: {fileID: 8117208289589390291}
   - component: {fileID: 2658446222246393699}
+  - component: {fileID: 277913565}
   - component: {fileID: 1435124817242847726}
   - component: {fileID: 2658446222246393711}
-  - component: {fileID: 277913565}
-  - component: {fileID: 8117208289589390291}
   m_Layer: 15
   m_Name: EnemyKnight
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2658446222246393697
 Transform:
   m_ObjectHideFlags: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 30
+  m_SortingOrder: 40
   m_Sprite: {fileID: 21300000, guid: 84ce2f114ad12bd4ebafc77060220324, type: 3}
   m_Color: {r: 0.9529412, g: 0.9529412, b: 0.9529412, a: 1}
   m_FlipX: 1
@@ -87,6 +87,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &8117208289589390291
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2658446222246393710}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 56404a64f05762e4683edf795bb1380c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!50 &2658446222246393699
 Rigidbody2D:
   serializedVersion: 4
@@ -108,44 +127,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &1435124817242847726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2658446222246393710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41ccbacd5dbe90d43bbbcec4f9b869c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 200
-  isEnraged: 0
-  isInvulnerable: 0
-  healthSystem: {fileID: 0}
---- !u!114 &2658446222246393711
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2658446222246393710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64015092e12d9c243b220d25e702a1c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bloodEffect: {fileID: 3732088311377371711, guid: ecfa2a4249a2c7e4f9627c34ebc878ab,
-    type: 3}
-  attackCoolDown: 1
-  offset: {x: 20, y: 0, z: 0}
-  health: 100
-  walkSpeed: 500
-  runSpeed: 50
-  StoppingDistance: 17
-  detectionRange: 50
-  isHurt: 0
 --- !u!60 &277913565
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -211,25 +192,42 @@ PolygonCollider2D:
       - {x: 0.1704478, y: -1.0737349}
       - {x: 0.28194886, y: -1.0039314}
       - {x: 0.32843122, y: -0.9366375}
---- !u!95 &8117208289589390291
-Animator:
-  serializedVersion: 3
+--- !u!114 &1435124817242847726
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2658446222246393710}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 56404a64f05762e4683edf795bb1380c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ccbacd5dbe90d43bbbcec4f9b869c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 200
+  isEnraged: 0
+  isInvulnerable: 0
+  hurtParticle: {fileID: 0}
+--- !u!114 &2658446222246393711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2658446222246393710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64015092e12d9c243b220d25e702a1c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodEffect: {fileID: 3732088311377371711, guid: ecfa2a4249a2c7e4f9627c34ebc878ab,
+    type: 3}
+  attackCoolDown: 1
+  patrolOffset: {x: 0, y: 0, z: 0}
+  walkSpeed: 500
+  StoppingDistance: 17
+  detectionRange: 50
+  isHurt: 0
 --- !u!1 &3110804803151884598
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,5 +299,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageAmount: 20
-  player: {fileID: 0}
-  playerHealthSystem: {fileID: 0}

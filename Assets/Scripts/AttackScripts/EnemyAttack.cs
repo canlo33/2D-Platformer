@@ -5,15 +5,13 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour
 {
     public int damageAmount;
-    public GameObject player;
-    public HealthSystem playerHealthSystem;
+    private GameObject player;
+    private HealthSystem playerHealthSystem;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player");
-        
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

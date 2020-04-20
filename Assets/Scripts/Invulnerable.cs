@@ -9,7 +9,7 @@ public class Invulnerable : StateMachineBehaviour
     {
         if(animator.tag =="Player" || animator.tag == "Boss")
         {
-            animator.GetComponent<HealthSystem>().healthSystem.isInvulnerable = true;
+            animator.GetComponent<HealthSystem>().isInvulnerable = true;
         }
     }
 
