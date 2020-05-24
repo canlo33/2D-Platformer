@@ -87,7 +87,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 2fd4312fb5334564db197f0558cd6447, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107,7 +107,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 40
+  m_SortingOrder: 41
   m_Sprite: {fileID: 21300000, guid: 4436e8c459c32e04d8dc48d6a71b641a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc5c42b61e560844a88a473176ee0faf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isIntro: 1
+  isIntro: 0
   groundCheck: {fileID: 4090273893866434288}
   groundLayer:
     serializedVersion: 2
@@ -211,6 +211,7 @@ MonoBehaviour:
   strikeCT: 0.5
   slashDamage: 10
   strikeDamage: 20
+  playerMat: {fileID: 2100000, guid: 2fd4312fb5334564db197f0558cd6447, type: 2}
 --- !u!114 &4090273893639448445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,6 +227,7 @@ MonoBehaviour:
   maxHealth: 100
   isEnraged: 0
   isInvulnerable: 0
+  hurtParticle: {fileID: 0}
 --- !u!1 &4090273893866434289
 GameObject:
   m_ObjectHideFlags: 0

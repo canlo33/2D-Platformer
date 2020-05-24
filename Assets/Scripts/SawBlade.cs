@@ -6,14 +6,17 @@ public class SawBlade : MonoBehaviour
 {
 
     public float rotationSpeed;
+    public float pushBackSpeed;
     public int damageAmount;
     private GameObject player;
     private HealthSystem playerHealthSystem;
+    private Rigidbody2D rb2D;
 
     private void Start()
     {
         player = GameObject.Find("Player");
         playerHealthSystem = player.GetComponent<HealthSystem>();
+        rb2D = player.GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -25,8 +28,7 @@ public class SawBlade : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
-            playerHealthSystem.Damage(damageAmount);          
-
+            playerHealthSystem.Damage(damageAmount);
         }
     }
 }

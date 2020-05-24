@@ -33,7 +33,11 @@ public class NinjaController : MonoBehaviour
     public int slashDamage;
     public int strikeDamage;
 
-    
+    //Dead Animation
+    [SerializeField] private Material playerMat;
+    private bool isDead = false;
+    public float dissolveAmount;
+
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +47,7 @@ public class NinjaController : MonoBehaviour
         firePoint = GameObject.Find("FirePoint").transform;
         fireCoolDown = fireCD;
         strikeComboTimer = 0f;
+        playerMat.SetFloat("_DissolveAmount", 0f);
     }
 
     // Update is called once per frame
@@ -59,6 +64,8 @@ public class NinjaController : MonoBehaviour
         Attack();
         PlayerHurt();
         Jump();
+        PlayerDead();
+        HurtPlayer();
 
     }
     void Timers()
@@ -81,7 +88,6 @@ public class NinjaController : MonoBehaviour
     {
         if (isIntro) return;
         Run();
-
     }
 
     private void Run()
@@ -107,10 +113,9 @@ public class NinjaController : MonoBehaviour
         if(Input.GetKey(KeyCode.W) && isGrounded)
         {
             rb2D.velocity = Vector2.up * jumpSpeed;
-            animator.SetTrigger("jump");    
+            animator.SetTrigger("jump");  
             
         }
-
     }
 
     private void GravityScale()
@@ -171,5 +176,27 @@ public class NinjaController : MonoBehaviour
         fireBallObject.transform.position = firePoint.position;
         fireBallObject.transform.rotation = firePoint.rotation;       
     }
-   
+
+    private void PlayerDead()
+    {
+        if(isDead)
+        {
+            dissolveAmount = Mathf.Clamp01(dissolveAmount + Time.deltaTime);
+            playerMat.SetFloat("_DissolveAmount", dissolveAmount);
+        }
+
+    }
+    
+    private void DieAnimationSet()
+    {
+        isDead = true;
+    }
+    private void HurtPlayer()
+    {
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            GetComponent<HealthSystem>().Damage(100);
+        }
+    }
+    
 }

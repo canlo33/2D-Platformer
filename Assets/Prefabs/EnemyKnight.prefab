@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64015092e12d9c243b220d25e702a1c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bloodEffect: {fileID: 3732088311377371711, guid: ecfa2a4249a2c7e4f9627c34ebc878ab,
+  bloodEffect: {fileID: 2807002129575623641, guid: 1a03fd7e610ce264e841d9c291e67641,
     type: 3}
   attackCoolDown: 1
   patrolOffset: {x: 0, y: 0, z: 0}

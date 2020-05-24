@@ -32,7 +32,7 @@ public class HealthSystem : MonoBehaviour
         if (currentHealth <= 0)
         { 
             currentHealth = 0;
-            animator.SetTrigger("die");            
+            animator.SetTrigger("die");
         }
 
         isEnraged = true;
